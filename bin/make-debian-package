@@ -32,11 +32,9 @@ Maintainer: René Preuß from StreamTV Media GmbH <rene.p@stream.tv>
 Vcs-Git: https://github.com/own3d/own3dpro-obs-plugin.git
 Homepage: https://www.own3d.pro/
 Package: obs-own3d-pro
-Architecture: all
+Architecture: amd64
 Version: $VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH.$VERSION_TWEAK+$VERSION_COMMIT
 Depends: obs-studio (>= 27.0.0)
-Essential: no
-Installed-Size: 1024
 Description: OWN3D Pro Plugin for OBS Studio
 EOF
 touch obs-own3d-pro/DEBIAN/rules
