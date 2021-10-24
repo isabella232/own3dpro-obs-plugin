@@ -16,7 +16,7 @@ Vcs-Git: https://github.com/own3d/own3dpro-obs-plugin.git
 Homepage: https://www.own3d.pro/
 Package: obs-own3d-pro
 Architecture: all
-Version: 1.5.0
+Version: 1.5.1
 Depends: obs-studio (>= 27.0.0)
 Essential: no
 Installed-Size: 1024

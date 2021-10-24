@@ -38,7 +38,7 @@ set(LOGPREFIX "OWN3D:")
 # also update in bin/make-debian-package
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 5)
-set(VERSION_PATCH 0)
+set(VERSION_PATCH 1)
 set(VERSION_TWEAK 0)
 set(VERSION_SUFFIX "")
 set(VERSION_COMMIT "00000000")
