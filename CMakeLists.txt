@@ -1,16 +1,16 @@
 # Integration of the OWN3D service into OBS Studio
 # Copyright (C) 2020 own3d media GmbH <support@own3d.tv>
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
@@ -164,9 +164,9 @@ set(PROJECT_VERSION_STRING ${VERSION_STRING})
 ################################################################################
 
 # Search Path
-set(CMAKE_MODULE_PATH 
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang" 
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" 
+set(CMAKE_MODULE_PATH
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/clang"
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake"
 )
 
@@ -286,12 +286,12 @@ if(STANDALONE)
 		set(_DOWNLOAD_OBS_URL ${PREFIX}DOWNLOAD_OBS_URL)
 		set(_DOWNLOAD_OBS_HASH ${PREFIX}DOWNLOAD_OBS_HASH)
 	else()
-		set(_DOWNLOAD_OBS_VERSION "26.1.0-ci")
+		set(_DOWNLOAD_OBS_VERSION "27.0.0-ci")
 		if (D_PLATFORM_WINDOWS)
 			if (D_PLATFORM_ARCH_X86)
-				set(_DOWNLOAD_OBS_URL "https://github.com/Xaymar/obs-studio/releases/download/${_DOWNLOAD_OBS_VERSION}/obs-studio-x64-0.0.0.0-windows-${D_PLATFORM_BITS}.7z")
+				set(_DOWNLOAD_OBS_URL "https://github.com/Xaymar/obs-studio/releases/download/${_DOWNLOAD_OBS_VERSION}/obs-studio-x64-0.0.0.0-windows-${D_PLATFORM_ARCH}-${D_PLATFORM_BITS}.7z")
 				if (D_PLATFORM_BITS EQUAL 64)
-					set(_DOWNLOAD_OBS_HASH "SHA256=EA9EE4CCEC0A19605C0768F1F4C21391A919CF0886F7A7CC94D63A95402CFD9B")
+					set(_DOWNLOAD_OBS_HASH "SHA256=EBF9853C8A553E16ECBCA22523F401E6CF1EB2E8DA93F1493FEF41D65BD06633")
 				else()
 					message(FATAL_ERROR "${LOGPREFIX} Platform '${D_PLATFORM_OS}' with architecture '${D_PLATFORM_ARCH}' and bitness '${D_PLATFORM_BITS}' is not supported.")
 					return()
@@ -302,9 +302,9 @@ if(STANDALONE)
 			endif()
 		elseif(D_PLATFORM_LINUX)
 			if (D_PLATFORM_ARCH_X86)
-				set(_DOWNLOAD_OBS_URL "https://github.com/Xaymar/obs-studio/releases/download/${_DOWNLOAD_OBS_VERSION}/obs-studio-x64-0.0.0.0-ubuntu-${D_PLATFORM_BITS}.7z")
+				set(_DOWNLOAD_OBS_URL "https://github.com/Xaymar/obs-studio/releases/download/${_DOWNLOAD_OBS_VERSION}/obs-studio-x64-0.0.0.0-ubuntu-${D_PLATFORM_ARCH}-${D_PLATFORM_BITS}.7z")
 				if (D_PLATFORM_BITS EQUAL 64)
-					set(_DOWNLOAD_OBS_HASH "SHA256=2B2793CDD0C3F5940924665022E31A76C10E34174073BF7B221325C11E764DF5")
+					set(_DOWNLOAD_OBS_HASH "SHA256=0AF6C7262C37D80C24CB18523A851FD765C04E766D8EB0F4AC0F6E75D13A035F")
 				else()
 					message(FATAL_ERROR "${LOGPREFIX} Platform '${D_PLATFORM_OS}' with architecture '${D_PLATFORM_ARCH}' and bitness '${D_PLATFORM_BITS}' is not supported.")
 					return()
@@ -315,9 +315,9 @@ if(STANDALONE)
 			endif()
 		elseif(D_PLATFORM_MAC)
 			if (D_PLATFORM_ARCH_X86)
-				set(_DOWNLOAD_OBS_URL "https://github.com/Xaymar/obs-studio/releases/download/${_DOWNLOAD_OBS_VERSION}/obs-studio-x64-0.0.0.0-macos-${D_PLATFORM_BITS}.7z")
+				set(_DOWNLOAD_OBS_URL "https://github.com/Xaymar/obs-studio/releases/download/${_DOWNLOAD_OBS_VERSION}/obs-studio-x64-0.0.0.0-macos-${D_PLATFORM_ARCH}-${D_PLATFORM_BITS}.7z")
 				if (D_PLATFORM_BITS EQUAL 64)
-					set(_DOWNLOAD_OBS_HASH "SHA256=34ABD3E574C62DA4E026E5DE271B93AB5151927E564F77264A59456F6ABCBDD0")
+					set(_DOWNLOAD_OBS_HASH "SHA256=F15BC4CA8EB3F581A94372759CFE554E30D202B604B541445A5756B878E4E799")
 				else()
 					message(FATAL_ERROR "${LOGPREFIX} Platform '${D_PLATFORM_OS}' with architecture '${D_PLATFORM_ARCH}' and bitness '${D_PLATFORM_BITS}' is not supported.")
 					return()
@@ -331,7 +331,7 @@ if(STANDALONE)
 			return()
 		endif()
 	endif()
-	
+
 	# Download libOBS
 	download_project(
 		PROJ libobs
@@ -357,7 +357,7 @@ if(STANDALONE AND NOT D_PLATFORM_LINUX)
 		${PREFIX}DOWNLOAD_OBSDEPS_URL
 		${PREFIX}DOWNLOAD_OBSDEPS_HASH
 	)
-	
+
 	# Allow overriding what version we build against.
 	if(${PREFIX}DOWNLOAD_OBSDEPS_URL)
 		set(_DOWNLOAD_OBSDEPS_URL ${PREFIX}DOWNLOAD_OBSDEPS_URL)
@@ -396,7 +396,7 @@ if(STANDALONE AND NOT D_PLATFORM_LINUX)
 			return()
 		endif()
 	endif()
-	
+
 	# Download libOBS
 	download_project(
 		PROJ obsdeps
@@ -427,7 +427,7 @@ if(STANDALONE AND NOT D_PLATFORM_LINUX)
 			${PREFIX}DOWNLOAD_QT_URL
 			${PREFIX}DOWNLOAD_QT_HASH
 		)
-	
+
 		# Allow overriding what version we build against.
 		if(${PREFIX}DOWNLOAD_QT_URL)
 			set(_DOWNLOAD_QT_URL ${PREFIX}DOWNLOAD_QT_URL)
@@ -467,7 +467,7 @@ if(STANDALONE AND NOT D_PLATFORM_LINUX)
 				return()
 			endif()
 		endif()
-		
+
 		download_project(
 			PROJ qt
 			URL "${_DOWNLOAD_QT_URL}"
@@ -475,7 +475,7 @@ if(STANDALONE AND NOT D_PLATFORM_LINUX)
 			DOWNLOAD_NO_PROGRESS OFF
 			UPDATE_DISCONNECTED OFF
 		)
-		
+
 		set(Qt5_DIR "${qt_SOURCE_DIR}" CACHE STRING "Path to Qt5")
 		if (D_PLATFORM_WINDOWS)
 			if (D_PLATFORM_ARCH_X86)
@@ -533,12 +533,12 @@ if(WIN32)
 	set(PROJECT_COPYRIGHT "${PROJECT_AUTHORS} © ${PROJECT_COPYRIGHT_YEARS}")
 	set(PROJECT_LEGAL_TRADEMARKS_1 "")
 	set(PROJECT_LEGAL_TRADEMARKS_2 "")
-	
+
 	configure_file(
 		"cmake/version.rc.in"
 		"${PROJECT_BINARY_DIR}/cmake/version.rc"
 		@ONLY
-	)	
+	)
 endif()
 
 # QT5
@@ -806,7 +806,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (WIN32 AND CMAKE_CXX_COMPILER_ID STR
 	# - Enable multi-processor compiling.
 
 	# Build with dynamic MSVC linkage.
-    target_compile_options(${PROJECT_NAME} PRIVATE 
+    target_compile_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:>:/MD>
         $<$<CONFIG:Debug>:/MDd>
         $<$<CONFIG:Release>:/MD>
@@ -815,7 +815,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (WIN32 AND CMAKE_CXX_COMPILER_ID STR
     )
 
 	# Enable most useful warnings.
-	set(DISABLED_WARNINGS 
+	set(DISABLED_WARNINGS
 		"/wd4061" "/wd4100" "/wd4180" "/wd4201" "/wd4464" "/wd4505" "/wd4514"
 		"/wd4571" "/wd4623" "/wd4625" "/wd4626" "/wd4668" "/wd4710" "/wd4774"
 		"/wd4820" "/wd5026" "/wd5027" "/wd5039" "/wd5045" "/wd26812"
@@ -832,12 +832,12 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR (WIN32 AND CMAKE_CXX_COMPILER_ID STR
 	target_compile_options(${PROJECT_NAME} PRIVATE "/MP")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	message(STATUS "${LOGPREFIX} Applying custom flags for GNU style build.")
-	
+
 	# Clang/AppleClang/GNU
 	# - Don't export by default. (Temporarily disabled)
 	# - Enable all and extra warnings.
-	
-	target_compile_options(${PROJECT_NAME} PRIVATE 
+
+	target_compile_options(${PROJECT_NAME} PRIVATE
 		"-Wall"
 		"-Wextra"
 	)
@@ -917,7 +917,7 @@ else()
 				OPTIONAL
 			)
 		endif()
-		
+
 		add_custom_target(
 			PACKAGE_7Z
 			${CMAKE_COMMAND} -E tar cfv "${_PACKAGE_FULL_NAME}.7z" --format=7zip --
@@ -988,7 +988,7 @@ else()
 				FILE_PERMISSIONS WORLD_EXECUTE;WORLD_READ;OWNER_EXECUTE;OWNER_READ;OWNER_WRITE;GROUP_EXECUTE;GROUP_READ;GROUP_WRITE
 				DIRECTORY_PERMISSIONS WORLD_EXECUTE;WORLD_READ;OWNER_EXECUTE;OWNER_READ;OWNER_WRITE;GROUP_EXECUTE;GROUP_READ;GROUP_WRITE
 			)
-		
+
 			add_custom_target(
 				PACKAGE_7Z
 				${CMAKE_COMMAND} -E tar cfv "${_PACKAGE_FULL_NAME}.7z" --format=7zip --

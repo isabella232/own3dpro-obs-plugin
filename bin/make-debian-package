@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# create base folder structure
+mkdir -p obs-own3d-pro/DEBIAN
+mkdir -p obs-own3d-pro/usr/lib/obs-plugins
+mkdir -p obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale
+
+# Create debian definition
+touch obs-own3d-pro/DEBIAN/changelog
+cat > obs-own3d-pro/DEBIAN/control << EOF
+Package: obs-own3d-pro
+Version: 1.0
+Depends: obs-studio (>= 27.0.0)
+Section: custom
+Priority: optional
+Architecture: all
+Essential: no
+Installed-Size: 1024
+Maintainer: own3d.pro
+Description: OWN3D Pro Plugin for OBS Studio
+EOF
+touch obs-own3d-pro/DEBIAN/rules
+
+# Copy binaries and locales
+cp -a build/distrib/plugins/own3d/bin/64bit/. obs-own3d-pro/usr/lib/obs-plugins/
+cp -a build/distrib/plugins/own3d/data//locale/. obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale/
+
+# package file
+dpkg-deb --build obs-own3d-pro
+mv obs-own3d-pro.deb build/package/obs-own3d-pro.deb

@@ -15,63 +15,77 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include "obs-browser.hpp"
+#include <obs-module.h>
 #include <util/platform.h>
+#include <stdexcept>
 
-static void* library = nullptr;
+#if defined(__APPLE__)
+#include <dlfcn.h>
+#endif
+
+#ifdef ENABLE_WAYLAND
+#include <obs-nix-platform.h>
+#endif
+
+void *get_browser_lib()
+{
+	// Disable panels on Wayland for now
+	bool isWayland = false;
+#ifdef ENABLE_WAYLAND
+	isWayland = obs_get_nix_platform() == OBS_NIX_PLATFORM_WAYLAND;
+#endif
+	if (isWayland) {
+		throw std::runtime_error("OWN3D: Wayland is not supported.");
+		return nullptr;
+	}
+
+	obs_module_t *browserModule = obs_get_module("obs-browser");
+
+	if (!browserModule) {
+		throw std::runtime_error("OWN3D: Cannot get obs-browser module.");
+		return nullptr;
+	}
+
+	return obs_get_module_lib(browserModule);
+}
 
 QCef* obs::browser::instance()
 {
-	static QCef* (*qcef_create)(void) = nullptr;
-	static QCef* cef                  = nullptr;
+	void *lib = get_browser_lib();
+	QCef *(*create_qcef)(void) = nullptr;
 
-	if (!library) {
-#ifdef _WIN32
-		library = os_dlopen("obs-browser");
-#else
-		library = os_dlopen("../obs-plugins/obs-browser");
-#endif
-		if (!library) {
-			return nullptr;
-		}
+	if (!lib) {
+		throw std::runtime_error("OWN3D: Cannot get obs-browser lib for instance.");
+		return nullptr;
 	}
 
-	if (!cef) {
-		if (!qcef_create) {
-			qcef_create = reinterpret_cast<decltype(qcef_create)>(os_dlsym(library, "obs_browser_create_qcef"));
-			if (!qcef_create) {
-				return nullptr;
-			}
-		}
+	create_qcef =
+		(decltype(create_qcef))os_dlsym(lib, "obs_browser_create_qcef");
 
-		cef = qcef_create();
-		if (!cef) {
-			return nullptr;
-		}
+	if (!create_qcef) {
+		throw std::runtime_error("OWN3D: Cannot create qcef.");
+		return nullptr;
 	}
 
-	return cef;
+	return create_qcef();
 }
 
 int obs::browser::version()
 {
+	void *lib = get_browser_lib();
 	int (*qcef_version)(void) = nullptr;
 
-	if (!library) {
-#ifdef _WIN32
-		library = os_dlopen("obs-browser");
-#else
-		library = os_dlopen("../obs-plugins/obs-browser");
-#endif
-		if (!library) {
-			return 0;
-		}
+	if (!lib) {
+		throw std::runtime_error("OWN3D: Cannot get obs-browser lib for version.");
+		return 0;
 	}
 
+	qcef_version = (decltype(qcef_version))os_dlsym(
+		lib, "obs_browser_qcef_version_export");
+
 	if (!qcef_version) {
-		qcef_version = reinterpret_cast<decltype(qcef_version)>(os_dlsym(library, "obs_browser_qcef_version_export"));
-		if (!qcef_version) {
-			return 0;
-		}
+		throw std::runtime_error("OWN3D: Cannot get qcef version.");
+		return 0;
 	}
 
 	return qcef_version();

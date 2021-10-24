@@ -20,6 +20,7 @@
 #include <string>
 #include "plugin.hpp"
 #include "util/utility.hpp"
+#include <stdexcept>
 
 constexpr std::string_view own3d_url            = "https://own3d.pro/";
 constexpr std::string_view own3d_url_path_theme = "obs?machine-token=";
@@ -46,11 +47,7 @@ own3d::ui::browser::browser() : QDialog(reinterpret_cast<QWidget*>(obs_frontend_
 	// Create Browser Widget
 	_cef = obs::browser::instance();
 	if (!_cef) {
-#ifdef WIN32
-		throw std::runtime_error("Failed to load obs-browser.dll.");
-#else
-		throw std::runtime_error("Failed to load obs-browser.so.");
-#endif
+		throw std::runtime_error("OWN3D: Failed to load obs-browser module.");
 	}
 
 	// Create Widget
