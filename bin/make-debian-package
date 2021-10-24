@@ -33,7 +33,7 @@ Vcs-Git: https://github.com/own3d/own3dpro-obs-plugin.git
 Homepage: https://www.own3d.pro/
 Package: obs-own3d-pro
 Architecture: all
-Version: 1.5.1
+Version: $VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH.$VERSION_TWEAK+$VERSION_COMMIT
 Depends: obs-studio (>= 27.0.0)
 Essential: no
 Installed-Size: 1024
@@ -42,9 +42,9 @@ EOF
 touch obs-own3d-pro/DEBIAN/rules
 
 # Copy binaries and locales
-cp -a build/distrib/plugins/own3d/bin/64bit/. obs-own3d-pro/usr/lib/obs-plugins/
-cp -a build/distrib/plugins/own3d/data//locale/. obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale/
+#cp -a build/distrib/plugins/own3d/bin/64bit/. obs-own3d-pro/usr/lib/obs-plugins/
+#cp -a build/distrib/plugins/own3d/data//locale/. obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale/
 
 # package file
-dpkg-deb --build obs-own3d-pro
-mv obs-own3d-pro.deb build/package/"$PACKAGE_FULL_NAME".deb
+#dpkg-deb --build obs-own3d-pro
+#mv obs-own3d-pro.deb build/package/"$PACKAGE_FULL_NAME".deb
