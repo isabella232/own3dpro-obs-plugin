@@ -189,7 +189,7 @@ bool own3d::source::chat_instance::parse_size(std::string_view text)
 bool own3d::source::chat_instance::parse_chat(uint32_t color, std::string_view font)
 {
 	std::vector<char> buffer(2048);
-	std::string format = own3d::get_api_endpoint("obs/browser-source/%s/components/chat?font-family=%s&color=%08X");
+	std::string format = own3d::get_web_endpoint("obs/browser-source/%s/chat/?font-family=%s&color=%08X");
 	buffer.resize(snprintf(buffer.data(), buffer.size(), format.c_str(), own3d::get_unique_identifier().data(),
 						   font.data(), color));
 

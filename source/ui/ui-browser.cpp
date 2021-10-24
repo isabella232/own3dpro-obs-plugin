@@ -79,7 +79,7 @@ void own3d::ui::browser::closeEvent(QCloseEvent*)
 QUrl own3d::ui::browser::generate_url()
 {
 	QUrl url;
-	url.setUrl(QString::fromStdString(own3d::get_web_endpoint("obs")));
+	url.setUrl(QString::fromStdString(own3d::get_web_endpoint("obs/")));
 	QUrlQuery urlq;
 	urlq.addQueryItem("machine-token", QString::fromUtf8(own3d::get_unique_identifier().data()));
 	urlq.addQueryItem("version", OWN3D_VERSION_STRING);
