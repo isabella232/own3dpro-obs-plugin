@@ -42,8 +42,8 @@ EOF
 touch obs-own3d-pro/DEBIAN/rules
 
 # Copy binaries and locales
-#cp -a build/distrib/plugins/own3d/bin/64bit/. obs-own3d-pro/usr/lib/obs-plugins/
-#cp -a build/distrib/plugins/own3d/data//locale/. obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale/
+cp -a build/distrib/plugins/own3d/bin/64bit/. obs-own3d-pro/usr/lib/obs-plugins/
+cp -a build/distrib/plugins/own3d/data//locale/. obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale/
 
 # package file
 dpkg-deb --build obs-own3d-pro
