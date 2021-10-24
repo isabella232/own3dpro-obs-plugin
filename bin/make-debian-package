@@ -14,7 +14,6 @@ Priority: optional
 Maintainer: René Preuß from StreamTV Media GmbH <rene.p@stream.tv>
 Vcs-Git: https://github.com/own3d/own3dpro-obs-plugin.git
 Homepage: https://www.own3d.pro/
-
 Package: obs-own3d-pro
 Architecture: all
 Version: 1.5.0
