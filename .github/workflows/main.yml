@@ -296,6 +296,8 @@ jobs:
                   cmake --build build/temp --config RelWithDebInfo --target PACKAGE_7Z
                   cmake --build build/temp --config RelWithDebInfo --target PACKAGE_ZIP
                   bin/make-debian-package
+              env:
+                  DEB_PACKAGE_NAME: own3d-pro-unsigned-${{ matrix.id}}
             - name: "Artifacts"
               uses: actions/upload-artifact@v1
               with:

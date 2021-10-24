@@ -5,6 +5,23 @@ mkdir -p obs-own3d-pro/DEBIAN
 mkdir -p obs-own3d-pro/usr/lib/obs-plugins
 mkdir -p obs-own3d-pro/usr/share/obs/obs-plugins/own3d/locale
 
+GIT_OUTPUT=$(git describe --tags --long --match "[0-9]*.[0-9]*.[0-9]*" --abbrev=8 HEAD)
+GIT_OUTPUT=${GIT_OUTPUT//"."/"-"}
+GIT_OUTPUT=${GIT_OUTPUT//"-"/";"}
+# shellcheck disable=SC2206
+GIT_OUTPUT=(${GIT_OUTPUT//;/ })
+
+VERSION_MAJOR=${GIT_OUTPUT[0]}
+VERSION_MINOR=${GIT_OUTPUT[1]}
+VERSION_PATCH=${GIT_OUTPUT[2]}
+VERSION_TWEAK=${GIT_OUTPUT[3]}
+VERSION_COMMIT=${GIT_OUTPUT[4]}
+
+VERSION_STRING="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}.${VERSION_TWEAK}-${VERSION_COMMIT}"
+PACKAGE_FULL_NAME="${DEB_PACKAGE_NAME}-${VERSION_STRING}"
+
+echo "Calculated '$PACKAGE_FULL_NAME.deb' as package name"
+
 # Create debian definition
 # if you have any questions, reach out the debian maintainer of this package.
 touch obs-own3d-pro/DEBIAN/changelog
@@ -30,4 +47,4 @@ cp -a build/distrib/plugins/own3d/data//locale/. obs-own3d-pro/usr/share/obs/obs
 
 # package file
 dpkg-deb --build obs-own3d-pro
-mv obs-own3d-pro.deb build/package/obs-own3d-pro.deb
+mv obs-own3d-pro.deb build/package/"$PACKAGE_FULL_NAME".deb
